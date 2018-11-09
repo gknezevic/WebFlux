@@ -1,5 +1,6 @@
 package com.playground.service.impl;
 
+import com.playground.Mp4Headers;
 import com.playground.service.FileService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.codec.multipart.FilePart;
@@ -23,7 +24,8 @@ public class FileServiceImpl implements FileService {
                 .map(inputStream -> {
                     try {
                         byte[] bytes = IOUtils.toByteArray(inputStream.getInputStream());
-                        return Arrays.copyOf(bytes, 20);
+                        byte[] subBytes = Arrays.copyOfRange(bytes, 4, 12);
+                        return Mp4Headers.isMp4Header(new String(subBytes)) ? "Mp4 file" : "Not Mp4";
                     } catch(Exception e){
                         // log error
                         return new Error(e.getMessage());
