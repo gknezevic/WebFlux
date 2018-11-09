@@ -26,4 +26,11 @@ public class FileController {
     Mono<?> bytesPost(@RequestPart(value = "bytes") Flux<FilePart> multipart) {
         return fileService.handleFile(multipart);
     }
+
+    @PostMapping(value = "/mixed")
+    Mono<?> mixedPost(@RequestPart(value = "bytes") Flux<FilePart> multipart,
+                      @RequestPart(value = "fileName") String fileName,
+                      @RequestPart(value = "owner") String fileOwner) {
+        return fileService.handleFile(multipart);
+    }
 }
